@@ -8,7 +8,7 @@ const RecommendationCreate = () => {
     const onSubmit = async (event) => {
         event.preventDefault();
 
-        await axios.post("https://localhost:8000/recommendations", {
+        await axios.post("http://localhost:8000/recommendations", {
             title
         });
 
@@ -16,13 +16,13 @@ const RecommendationCreate = () => {
     }
     return (
         <Container>
-            <form>
+            <form onSubmit={onSubmit}>
                 <FormGroup>
 
                 </FormGroup>
                 <label>Title</label>
                 <input value={title} onChange={e => setTitle(e.target.value)}></input>
-                <button onClick={() => onSubmit()} type="submit">Submit</button>
+                <button type="submit">Submit</button>
             </form>
 
         </Container>
