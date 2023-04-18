@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import CommentList from "./CommentList";
 import CommentCreate from "./CommentCreate";
 
-const RecommendationCreate = () => {
+const RecommendationList = () => {
     const [recommendations, setRecommendations] = useState({});
 
     const fetchPosts = async () => {
@@ -38,7 +38,7 @@ const RecommendationCreate = () => {
         </div>
     );
 };
-export default RecommendationCreate
+export default RecommendationList
 
 const Container = styled.div`
 

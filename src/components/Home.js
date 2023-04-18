@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import UserService from "../services/UserService";
-import RecommendationCreate from "./RecommendationList";
+import RecommendationCreate from "./RecommendationCreate";
 import RecommendationList from "./RecommendationList";
 
 export default class Home extends Component {
