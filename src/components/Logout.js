@@ -57,9 +57,7 @@ export default function Logout({modal, setModal}) {
                 </button>
                 <button
                     type="button"
-                    className="mt-3 w-full inline-flex justify-center shadow-sm px-4 py-2  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm
-                  rounded-md border border-gray-300 bg-white text-gray-500 text-base font-medium hover:bg-gray-100 focus:outline-none focus:ring-gray-200 focus:ring-2 focus:ring-offset-2 hover:text-gray-900 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600
-                  "
+                    className="btn btn-primary"
                     onClick={() => setModal(false)}
                     ref={cancelButtonRef}
                 >

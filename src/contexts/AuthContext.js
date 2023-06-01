@@ -4,6 +4,7 @@ import {
     signInWithEmailAndPassword,
     signOut,
     updateProfile,
+    deleteUser
 } from "firebase/auth";
 
 import auth from "../config/firebase";
@@ -44,6 +45,13 @@ export function AuthProvider({ children }) {
         return unsubscribe;
     }, []);
 
+    function deleteCurrentUser(user) {
+        deleteUser(user).then(() => {
+            window.location.replace("/login")
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
     const value = {
         currentUser,
         error,
@@ -52,6 +60,7 @@ export function AuthProvider({ children }) {
         register,
         logout,
         updateUserProfile,
+        deleteCurrentUser
     };
 
     return (

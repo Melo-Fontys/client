@@ -1,19 +1,22 @@
-import React, { Component } from "react";
-
-import UserService from "../services/UserService";
-import RecommendationCreate from "./RecommendationCreate";
-import RecommendationList from "./RecommendationList";
+import React, {Component} from "react";
+import LeftSidebar from "./Leftsidebar";
+import MainContent from "./Maincontent";
+import Navbar from "./Navbar";
+import RightSidebar from "./Rightsidebar";
 
 export default class Home extends Component {
     render() {
         return (
-            <div className="container">
-                <h1>Create Recommendations</h1>
-                <RecommendationCreate />
-                <hr />
-                <h1>Recommendations</h1>
-                <RecommendationList />
-            </div>
+            <>
+                <Navbar/>
+                <div className="container-fluid gedf-wrapper">
+                    <div className="row">
+                        <LeftSidebar/>
+                        <MainContent/>
+                        <RightSidebar/>
+                    </div>
+                </div>
+            </>
         );
     }
 }

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 
-import { useAuth } from "../contexts/AuthContext";
+import {useAuth} from "../contexts/AuthContext";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -11,11 +11,11 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, register, setError } = useAuth();
+    const {currentUser, register, setError} = useAuth();
 
     useEffect(() => {
         if (currentUser) {
-            navigate("/");
+            navigate("/home");
         }
     }, [currentUser, navigate]);
 
@@ -29,6 +29,7 @@ export default function Register() {
         try {
             setError("");
             setLoading(true);
+            console.log(email,password)
             await register(email, password);
             navigate("/login");
         } catch (e) {
@@ -89,7 +90,7 @@ export default function Register() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className=" w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-sky-800 hover:bg-sky-900"
+                            className="btn btn-primary"
                         >
                             Register
                         </button>
