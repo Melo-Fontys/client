@@ -4,7 +4,7 @@ import axios from "axios";
 import CommentList from "./CommentList";
 import CommentCreate from "./CommentCreate";
 
-export default function Feed() {
+const Feed = () => {
     const {currentUser} = useAuth();
     const [recommendations, setRecommendations] = useState([]);
 
@@ -99,6 +99,7 @@ export default function Feed() {
             })
             }
         </>
-    )
-        ;
+    );
 }
+
+export default Feed;

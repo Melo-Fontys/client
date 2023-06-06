@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form'
 export default function Maincontent() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [searchSong, setSearchSong] = useState('');
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -73,6 +74,11 @@ export default function Maincontent() {
                                                       onChange={e => setDescription(e.target.value)}
                                                       placeholder="Description"
                                         />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+
+                                        <Form.Control type="text" placeholder="Search" value={searchSong}
+                                                      onChange={e => setSearchSong(e.target.value)}/>
                                     </Form.Group>
                                 </Form>
                             </div>
