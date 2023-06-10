@@ -1,22 +1,66 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Feed from "./Feed";
 import axios from "axios";
 import Form from 'react-bootstrap/Form'
+import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge';
+import {useAuth} from "../contexts/AuthContext";
 
 export default function Maincontent() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [searchSong, setSearchSong] = useState('');
+    const [user, setUser] = useState('');
+    const [arraySongs, setArraySongs] = useState([]);
+    const [selectedSong, setSelectedSong] = useState('');
+    const {currentUser} = useAuth();
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
+
+    const fetchUser = async () => {
+        const res = await axios.get("http://localhost:8004/users/email" + currentUser.email);
+        console.log(res.data)
+        setUser(res.data);
+    };
+
+    function millisToMinutesAndSeconds(millis) {
+        let minutes = Math.floor(millis / 60000);
+        let seconds = ((millis % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+
 
     const onSubmit = async (event) => {
         event.preventDefault();
 
+        const user_id = user.userId;
+
         await axios.post("http://localhost:8000/recommendations", {
-            title, description
+            title, description, selectedSong, user_id
         });
 
         setTitle('')
+        setDescription('')
+        setSearchSong('')
+
     }
+
+    const chosenSong = async (song) => {
+        setSelectedSong(song.external_urls.spotify)
+        setSearchSong(song.name)
+        setArraySongs([])
+    }
+
+    const searchSongs = async (value) => {
+
+        const res = await axios.get("http://localhost:8006/songs/" + value);
+        console.log(res.data[0])
+        setArraySongs(res.data)
+        setSearchSong(value);
+    }
+
 
     return (
         <>
@@ -39,19 +83,6 @@ export default function Maincontent() {
                                     aria-selected="true"
                                 >
                                     Make a recommendation / post!
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a
-                                    className="nav-link"
-                                    id="images-tab"
-                                    data-toggle="tab"
-                                    role="tab"
-                                    aria-controls="images"
-                                    aria-selected="false"
-                                    href="#images"
-                                >
-                                    Images
                                 </a>
                             </li>
                         </ul>
@@ -78,29 +109,27 @@ export default function Maincontent() {
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
 
                                         <Form.Control type="text" placeholder="Search" value={searchSong}
-                                                      onChange={e => setSearchSong(e.target.value)}/>
+                                                      onChange={e => searchSongs(e.target.value)}/>
+                                        <ListGroup as="ol">
+                                            {arraySongs.map((song) => {
+                                                return (
+                                                    <ListGroup.Item action onClick={() => chosenSong(song)}
+                                                                    as="li"
+                                                                    className="d-flex justify-content-between align-items-start"
+                                                    >
+                                                        <div className="ms-2 me-auto">
+                                                            <div className="fw-bold">{song.name}</div>
+                                                            {song.artists[0].name}
+                                                        </div>
+                                                        <Badge bg="primary" pill>
+                                                            {millisToMinutesAndSeconds(song.duration_ms)}
+                                                        </Badge>
+                                                    </ListGroup.Item>
+                                                )
+                                            })}
+                                        </ListGroup>
                                     </Form.Group>
                                 </Form>
-                            </div>
-                            <div
-                                className="tab-pane fade"
-                                id="images"
-                                role="tabpanel"
-                                aria-labelledby="images-tab"
-                            >
-                                <div className="form-group">
-                                    <div className="custom-file">
-                                        <input
-                                            type="file"
-                                            className="custom-file-input"
-                                            id="customFile"
-                                        />
-                                        <label className="custom-file-label">
-                                            Upload image
-                                        </label>
-                                    </div>
-                                </div>
-                                <div className="py-4"></div>
                             </div>
                         </div>
                         <div className="btn-toolbar justify-content-between">

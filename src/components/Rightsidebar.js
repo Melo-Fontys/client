@@ -1,11 +1,21 @@
 import React from "react";
 import {useAuth} from "../contexts/AuthContext";
+import axios from "axios";
 
 export default function Rightsidebar() {
     const {currentUser, deleteCurrentUser} = useAuth();
 
-    const deleteAccount = () => {
-        deleteCurrentUser(currentUser)
+    const deleteAccount = async () => {
+
+        const res = await axios.get("http://localhost:8004/users/email" + currentUser.email);
+
+        const user = res.data;
+        console.log(user)
+        // deleteCurrentUser(currentUser)
+
+        await axios.delete("http://localhost:8000/recommendations/users/" + user.id);
+        await axios.delete("http://localhost:8004/users/" + user.id);
+
     }
 
     const logout = () => {

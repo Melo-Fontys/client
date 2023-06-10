@@ -1,16 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {useAuth} from "../contexts/AuthContext";
 import axios from "axios";
+import {Spotify} from "react-spotify-embed";
+
 import CommentList from "./CommentList";
 import CommentCreate from "./CommentCreate";
 
 const Feed = () => {
-    const {currentUser} = useAuth();
     const [recommendations, setRecommendations] = useState([]);
+    const [currentUser, setCurrentUser] = useState('');
 
     const fetchPosts = async () => {
         const res = await axios.get("http://localhost:8000/recommendations");
         setRecommendations(res.data);
+    };
+
+    const getUserById = async (id) => {
+        const res = await axios.get("http://localhost:8004/users/" + id);
+        setCurrentUser(res.data);
     };
 
     useEffect(() => {
@@ -24,10 +30,12 @@ const Feed = () => {
     return (
         <>
             {Object.values(recommendations).map((recommendation) => {
-                console.log(recommendation)
-                return (
-                    <>
-                        <div className="card gedf-card">
+
+                if (recommendation.userId) {
+                    getUserById(recommendation.userId);
+                    console.log(currentUser)
+                    return (
+                        <div className="card gedf-card" key={recommendation.id}>
                             <div className="card-header">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className="d-flex justify-content-between align-items-center">
@@ -40,37 +48,7 @@ const Feed = () => {
                                             />
                                         </div>
                                         <div className="ml-2">
-                                            <div className="h5 m-0">@{currentUser.email}</div>
-                                            {/*<div className="h7 text-muted">Miracles Lee Cross</div>*/}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="dropdown">
-                                            <button
-                                                className="btn btn-link dropdown-toggle"
-                                                type="button"
-                                                id="gedf-drop1"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
-                                            >
-                                                <i className="fa fa-ellipsis-h"></i>
-                                            </button>
-                                            <div
-                                                className="dropdown-menu dropdown-menu-right"
-                                                aria-labelledby="gedf-drop1"
-                                            >
-                                                <div className="h6 dropdown-header">Configuration</div>
-                                                <a className="dropdown-item" href="#">
-                                                    Save
-                                                </a>
-                                                <a className="dropdown-item" href="#">
-                                                    Hide
-                                                </a>
-                                                <a className="dropdown-item" href="#">
-                                                    Report
-                                                </a>
-                                            </div>
+                                            <div className="h5 m-0">@{currentUser.name}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +56,7 @@ const Feed = () => {
                             <div className="card-body">
                                 <div className="text-muted h7 mb-2">
                                     {" "}
-                                    <i className="fa fa-clock-o"></i>10 min ago
+                                    <i className="fa fa-clock-o"></i>{recommendation.createdAt}
                                 </div>
                                 <a className="card-link" href="#">
                                     <h5 className="card-title">
@@ -89,15 +67,14 @@ const Feed = () => {
                                 <p className="card-text">
                                     {recommendation.description}
                                 </p>
+                                <Spotify wide link={recommendation.song}/>
                             </div>
                             <CommentCreate postId={recommendation.id}/>
                             <CommentList postId={recommendation.id}/>
                         </div>
-
-                    </>
-                );
-            })
-            }
+                    );
+                }
+            })}
         </>
     );
 }
