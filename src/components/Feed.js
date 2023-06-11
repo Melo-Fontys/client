@@ -7,33 +7,31 @@ import CommentCreate from "./CommentCreate";
 
 const Feed = () => {
     const [recommendations, setRecommendations] = useState([]);
-    const [currentUser, setCurrentUser] = useState('');
+    const [users, setUsers] = useState([]);
 
-    const fetchPosts = async () => {
+    const fetchPostsUsers = async () => {
         const res = await axios.get("http://localhost:8000/recommendations");
         setRecommendations(res.data);
-    };
 
-    const getUserById = async (id) => {
-        const res = await axios.get("http://localhost:8004/users/" + id);
-        setCurrentUser(res.data);
+        const res2 = await axios.get("http://localhost:8004/users");
+        setUsers(res2.data);
     };
 
     useEffect(() => {
         console.log(recommendations);
+        console.log(users)
     }, [recommendations]);
 
     useEffect(() => {
-        fetchPosts();
+        fetchPostsUsers();
     }, []);
+
 
     return (
         <>
             {Object.values(recommendations).map((recommendation) => {
-
-                if (recommendation.userId) {
-                    getUserById(recommendation.userId);
-                    console.log(currentUser)
+                if (users.length) {
+                    const user = users.find(x => x.id === recommendation.userId)
                     return (
                         <div className="card gedf-card" key={recommendation.id}>
                             <div className="card-header">
@@ -48,7 +46,7 @@ const Feed = () => {
                                             />
                                         </div>
                                         <div className="ml-2">
-                                            <div className="h5 m-0">@{currentUser.name}</div>
+                                            <div className="h5 m-0">@{user.name}</div>
                                         </div>
                                     </div>
                                 </div>
