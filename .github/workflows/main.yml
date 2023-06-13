@@ -35,6 +35,6 @@ jobs:
             PROJECT_ID: ${{ secrets.PROJECT_ID }}
             APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
             CLUSTER_NAME: ${{ secrets.CLUSTER_NAME }}
-            ZONE_NAME: europe-west1
+            ZONE_NAME: europe-central2
           with:
             args: apply -f client.yaml
