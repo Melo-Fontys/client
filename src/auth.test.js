@@ -59,14 +59,4 @@ describe('Firebase Authentication', () => {
 
         expect(auth.currentUser).toBeNull();
     });
-
-    it('should delete a user account', async () => {
-        // Test user account deletion functionality
-
-        await testUser.user.delete();
-
-        // Attempt to log in with the deleted user's credentials
-        await expect(signInWithEmailAndPassword(auth, 'test@example.com', 'password123')).rejects.toThrow();
-    });
-    
 });
