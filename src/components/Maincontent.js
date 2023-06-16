@@ -35,7 +35,7 @@ export default function Maincontent() {
     const onSubmit = async (event) => {
         event.preventDefault();
 
-        const user_id = user.userId;
+        const user_id = user.user_id;
 
         await axios.post("http://localhost:8000/recommendations", {
             title, description, selectedSong, user_id

@@ -46,7 +46,7 @@ const Feed = () => {
                                             />
                                         </div>
                                         <div className="ml-2">
-                                            <div className="h5 m-0">@{user.name}</div>
+                                            <div className="h5 m-0">@{user.username}</div>
                                         </div>
                                     </div>
                                 </div>
