@@ -20,7 +20,7 @@ export default function Maincontent() {
     }, []);
 
     const fetchUser = async () => {
-        const res = await axios.get("http://localhost:8004/users/email" + currentUser.email);
+        const res = await axios.get("http://localhost:8004/users/email/" + currentUser.email);
         console.log(res.data)
         setUser(res.data);
     };

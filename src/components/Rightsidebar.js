@@ -52,7 +52,7 @@ export default function Rightsidebar() {
                         <p className="card-text">
                             Click here if you want to nuke this account
                         </p>
-                        <button type="submit" onClick={deleteAccount} className="btn btn-primary">
+                        <button type="submit" onClick={() => deleteAccount} className="btn btn-primary">
                             Delete account
                         </button>
                     </div>
